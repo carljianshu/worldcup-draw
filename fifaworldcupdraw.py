@@ -465,8 +465,8 @@ def do_full_draw():
   teams_pot3 = deepcopy(teams_pot3_original)
   teams_pot4 = deepcopy(teams_pot4_original)
   groups     = deepcopy(groups_original)
-  place_team2to4(1,{"name": "Iraq/Bolivia/Suriname",  "continent": ["AFC","CONMEBOL","CONCACAF"]},groups)
-  place_team2to4(2,{"name": "DR Congo/Jamaica/New Caledonia", "continent": ["CAF", "CONCACAF", "OFC"]},groups)
+  place_team2to4(1,{"name": "🇮🇶Iraq/🇧🇴Bolivia/🇸🇷Suriname",  "continent": ["AFC","CONMEBOL","CONCACAF"]},groups)
+  place_team2to4(2,{"name": "🇨🇩DR Congo/🇯🇲Jamaica/🇳🇨New Caledonia", "continent": ["CAF", "CONCACAF", "OFC"]},groups)
 
   for i in range(1,3):
     while True:
