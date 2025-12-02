@@ -7,7 +7,7 @@
   <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen bg-slate-900 text-slate-100">
+<body class="min-h-screen bg-slate-950 text-slate-100">
   <div class="max-w-6xl mx-auto px-4 py-8">
     <!-- Header -->
     <header class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -15,35 +15,178 @@
         <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
           World Cup Draw Simulator
         </h1>
-        <p class="text-slate-300 mt-1">
-          Click “Draw” to generate a new random World Cup group stage.
+        <p class="text-slate-300 mt-1 text-sm sm:text-base">
+          Click “Draw” to generate a new random World Cup group stage and full match schedule.
         </p>
       </div>
 
       <button
         id="drawBtn"
-        class="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-4 py-2 text-sm font-semibold text-slate-900 shadow-lg hover:bg-emerald-400 active:scale-[0.98] transition"
+        class="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/25 hover:bg-emerald-400 active:scale-[0.98] transition"
       >
-        Draw
+        🔁 Draw New Tournament
       </button>
     </header>
 
-    <!-- Status / error message -->
-    <p id="statusText" class="text-sm text-slate-300 mb-4"></p>
+    <p
+      id="statusText"
+      class="text-xs sm:text-sm text-slate-300 mb-6 px-3 py-2 inline-flex items-center gap-2 rounded-full bg-slate-900/70 border border-slate-700"
+    >
+      Ready. Click “Draw” to generate a bracket.
+    </p>
 
-    <!-- Groups grid -->
-    <main>
-      <div
-        id="groupsContainer"
-        class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-      >
-        <!-- Cards will be inserted here -->
+    <!-- Groups + Fixtures -->
+    <main class="space-y-10">
+      <!-- Groups -->
+      <section>
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-xl font-semibold flex items-center gap-2">
+            <span class="inline-block h-6 w-1 rounded-full bg-emerald-500"></span>
+            Groups
+          </h2>
+          <span class="text-xs uppercase tracking-wide text-slate-400">
+            12 groups · 4 teams each
+          </span>
+        </div>
+        <div
+          id="groupsContainer"
+          class="grid grid-cols-3 gap-4"
+        ></div>
+      </section>
+
+      <!-- Fixtures (grouped by date) -->
+      <section class="flex justify-center">
+        <div class="w-full max-w-3xl">
+
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-xl font-semibold flex items-center gap-2">
+            <span class="inline-block h-6 w-1 rounded-full bg-sky-500"></span>
+            Fixtures by Date
+          </h2>
+          <span class="text-xs uppercase tracking-wide text-slate-400">
+            Group stage schedule
+          </span>
+        </div>
+        <div id="fixturesContainer" class="space-y-4 text-sm text-slate-100">
+          <!-- JS will fill fixtures here, grouped by date -->
+        </div>
       </div>
+      </section>
     </main>
   </div>
 
   <script>
     const groupLetters = "ABCDEFGHIJKL".split("");
+
+    // All 72 fixtures based on your description
+    // groups[i][j] is your backend list[i][j]
+    const fixturesTemplate = [
+      // June 11
+      { date: "June 11", groupIndexA: 0, teamAIndex: 0, groupIndexB: 0, teamBIndex: 1 },
+      { date: "June 11", groupIndexA: 0, teamAIndex: 2, groupIndexB: 0, teamBIndex: 3 },
+
+      // June 12
+      { date: "June 12", groupIndexA: 1, teamAIndex: 0, groupIndexB: 1, teamBIndex: 1 },
+      { date: "June 12", groupIndexA: 3, teamAIndex: 0, groupIndexB: 3, teamBIndex: 1 },
+
+      // June 13
+      { date: "June 13", groupIndexA: 1, teamAIndex: 2, groupIndexB: 1, teamBIndex: 3 },
+      { date: "June 13", groupIndexA: 2, teamAIndex: 0, groupIndexB: 2, teamBIndex: 1 },
+      { date: "June 13", groupIndexA: 2, teamAIndex: 2, groupIndexB: 2, teamBIndex: 3 },
+      { date: "June 13", groupIndexA: 3, teamAIndex: 2, groupIndexB: 3, teamBIndex: 3 },
+
+      // June 14
+      { date: "June 14", groupIndexA: 4, teamAIndex: 0, groupIndexB: 4, teamBIndex: 1 },
+      { date: "June 14", groupIndexA: 4, teamAIndex: 2, groupIndexB: 4, teamBIndex: 3 },
+      { date: "June 14", groupIndexA: 5, teamAIndex: 0, groupIndexB: 5, teamBIndex: 1 },
+      { date: "June 14", groupIndexA: 5, teamAIndex: 2, groupIndexB: 5, teamBIndex: 3 },
+
+      // June 15
+      { date: "June 15", groupIndexA: 6, teamAIndex: 0, groupIndexB: 6, teamBIndex: 1 },
+      { date: "June 15", groupIndexA: 6, teamAIndex: 2, groupIndexB: 6, teamBIndex: 3 },
+      { date: "June 15", groupIndexA: 7, teamAIndex: 0, groupIndexB: 7, teamBIndex: 1 },
+      { date: "June 15", groupIndexA: 7, teamAIndex: 2, groupIndexB: 7, teamBIndex: 3 },
+
+      // June 16
+      { date: "June 16", groupIndexA: 8, teamAIndex: 0, groupIndexB: 8, teamBIndex: 1 },
+      { date: "June 16", groupIndexA: 8, teamAIndex: 2, groupIndexB: 8, teamBIndex: 3 },
+      { date: "June 16", groupIndexA: 9, teamAIndex: 0, groupIndexB: 9, teamBIndex: 1 },
+      { date: "June 16", groupIndexA: 9, teamAIndex: 2, groupIndexB: 9, teamBIndex: 3 },
+
+      // June 17
+      { date: "June 17", groupIndexA: 10, teamAIndex: 0, groupIndexB: 10, teamBIndex: 1 },
+      { date: "June 17", groupIndexA: 10, teamAIndex: 2, groupIndexB: 10, teamBIndex: 3 },
+      { date: "June 17", groupIndexA: 11, teamAIndex: 0, groupIndexB: 11, teamBIndex: 1 },
+      { date: "June 17", groupIndexA: 11, teamAIndex: 2, groupIndexB: 11, teamBIndex: 3 },
+
+      // June 18
+      { date: "June 18", groupIndexA: 0, teamAIndex: 0, groupIndexB: 0, teamBIndex: 2 },
+      { date: "June 18", groupIndexA: 0, teamAIndex: 3, groupIndexB: 0, teamBIndex: 1 },
+      { date: "June 18", groupIndexA: 1, teamAIndex: 0, groupIndexB: 1, teamBIndex: 2 },
+      { date: "June 18", groupIndexA: 1, teamAIndex: 3, groupIndexB: 1, teamBIndex: 1 },
+
+      // June 19
+      { date: "June 19", groupIndexA: 2, teamAIndex: 0, groupIndexB: 2, teamBIndex: 2 },
+      { date: "June 19", groupIndexA: 2, teamAIndex: 3, groupIndexB: 2, teamBIndex: 1 },
+      { date: "June 19", groupIndexA: 3, teamAIndex: 0, groupIndexB: 3, teamBIndex: 2 },
+      { date: "June 19", groupIndexA: 3, teamAIndex: 3, groupIndexB: 3, teamBIndex: 1 },
+
+      // June 20
+      { date: "June 20", groupIndexA: 4, teamAIndex: 0, groupIndexB: 4, teamBIndex: 2 },
+      { date: "June 20", groupIndexA: 4, teamAIndex: 3, groupIndexB: 4, teamBIndex: 1 },
+      { date: "June 20", groupIndexA: 5, teamAIndex: 0, groupIndexB: 5, teamBIndex: 2 },
+      { date: "June 20", groupIndexA: 5, teamAIndex: 3, groupIndexB: 5, teamBIndex: 1 },
+
+      // June 21
+      { date: "June 21", groupIndexA: 6, teamAIndex: 0, groupIndexB: 6, teamBIndex: 2 },
+      { date: "June 21", groupIndexA: 6, teamAIndex: 3, groupIndexB: 6, teamBIndex: 1 },
+      { date: "June 21", groupIndexA: 7, teamAIndex: 0, groupIndexB: 7, teamBIndex: 2 },
+      { date: "June 21", groupIndexA: 7, teamAIndex: 3, groupIndexB: 7, teamBIndex: 1 },
+
+      // June 22
+      { date: "June 22", groupIndexA: 8, teamAIndex: 0, groupIndexB: 8, teamBIndex: 2 },
+      { date: "June 22", groupIndexA: 8, teamAIndex: 3, groupIndexB: 8, teamBIndex: 1 },
+      { date: "June 22", groupIndexA: 9, teamAIndex: 0, groupIndexB: 9, teamBIndex: 2 },
+      { date: "June 22", groupIndexA: 9, teamAIndex: 3, groupIndexB: 9, teamBIndex: 1 },
+
+      // June 23
+      { date: "June 23", groupIndexA: 10, teamAIndex: 0, groupIndexB: 10, teamBIndex: 2 },
+      { date: "June 23", groupIndexA: 10, teamAIndex: 3, groupIndexB: 10, teamBIndex: 1 },
+      { date: "June 23", groupIndexA: 11, teamAIndex: 0, groupIndexB: 11, teamBIndex: 2 },
+      { date: "June 23", groupIndexA: 11, teamAIndex: 3, groupIndexB: 11, teamBIndex: 1 },
+
+      // June 24
+      { date: "June 24", groupIndexA: 0, teamAIndex: 3, groupIndexB: 0, teamBIndex: 0 },
+      { date: "June 24", groupIndexA: 0, teamAIndex: 1, groupIndexB: 0, teamBIndex: 2 },
+      { date: "June 24", groupIndexA: 1, teamAIndex: 3, groupIndexB: 1, teamBIndex: 0 },
+      { date: "June 24", groupIndexA: 1, teamAIndex: 1, groupIndexB: 1, teamBIndex: 2 },
+      { date: "June 24", groupIndexA: 2, teamAIndex: 3, groupIndexB: 2, teamBIndex: 0 },
+      { date: "June 24", groupIndexA: 2, teamAIndex: 1, groupIndexB: 2, teamBIndex: 2 },
+
+      // June 25
+      { date: "June 25", groupIndexA: 3, teamAIndex: 3, groupIndexB: 3, teamBIndex: 0 },
+      { date: "June 25", groupIndexA: 3, teamAIndex: 1, groupIndexB: 3, teamBIndex: 2 },
+      { date: "June 25", groupIndexA: 4, teamAIndex: 3, groupIndexB: 4, teamBIndex: 0 },
+      { date: "June 25", groupIndexA: 4, teamAIndex: 1, groupIndexB: 4, teamBIndex: 2 },
+      { date: "June 25", groupIndexA: 5, teamAIndex: 3, groupIndexB: 5, teamBIndex: 0 },
+      { date: "June 25", groupIndexA: 5, teamAIndex: 1, groupIndexB: 5, teamBIndex: 2 },
+
+      // June 26
+      { date: "June 26", groupIndexA: 6, teamAIndex: 3, groupIndexB: 6, teamBIndex: 0 },
+      { date: "June 26", groupIndexA: 6, teamAIndex: 1, groupIndexB: 6, teamBIndex: 2 },
+      { date: "June 26", groupIndexA: 7, teamAIndex: 3, groupIndexB: 7, teamBIndex: 0 },
+      { date: "June 26", groupIndexA: 7, teamAIndex: 1, groupIndexB: 7, teamBIndex: 2 },
+      { date: "June 26", groupIndexA: 8, teamAIndex: 3, groupIndexB: 8, teamBIndex: 0 },
+      { date: "June 26", groupIndexA: 8, teamAIndex: 1, groupIndexB: 8, teamBIndex: 2 },
+
+      // June 27
+      { date: "June 27", groupIndexA: 9, teamAIndex: 3, groupIndexB: 6, teamBIndex: 0 },
+      { date: "June 27", groupIndexA: 9, teamAIndex: 1, groupIndexB: 6, teamBIndex: 2 },
+      { date: "June 27", groupIndexA: 10, teamAIndex: 3, groupIndexB: 10, teamBIndex: 0 },
+      { date: "June 27", groupIndexA: 10, teamAIndex: 1, groupIndexB: 10, teamBIndex: 2 },
+      { date: "June 27", groupIndexA: 11, teamAIndex: 3, groupIndexB: 11, teamBIndex: 0 },
+      { date: "June 27", groupIndexA: 11, teamAIndex: 1, groupIndexB: 11, teamBIndex: 2 },
+    ];
 
     function renderGroups(groups) {
       const container = document.getElementById("groupsContainer");
@@ -54,11 +197,11 @@
 
         const card = document.createElement("article");
         card.className =
-          "rounded-2xl border border-slate-700 bg-slate-800/70 p-4 shadow-lg flex flex-col gap-3";
+          "rounded-2xl border border-slate-700 bg-slate-900/70 p-4 shadow-lg flex flex-col gap-3";
 
         const title = document.createElement("h2");
-        title.className = "text-lg font-semibold text-slate-50";
-        title.textContent = `Group ${groupName}`;
+        title.className = "text-lg font-semibold text-slate-50 flex items-center justify-between";
+        title.innerHTML = `<span>Group ${groupName}</span>`;
 
         const list = document.createElement("ul");
         list.className = "mt-1 space-y-1 text-sm";
@@ -66,7 +209,7 @@
         teams.forEach((team, i) => {
           const li = document.createElement("li");
           li.className =
-            "flex items-center gap-2 rounded-lg bg-slate-900/40 px-3 py-1.5";
+            "flex items-center gap-2 rounded-lg bg-slate-950/50 px-3 py-1.5";
 
           const badge = document.createElement("span");
           badge.className =
@@ -87,21 +230,147 @@
       });
     }
 
+    // NEW: prettier fixtures, grouped by date
+    function renderFixtures(groups) {
+      const container = document.getElementById("fixturesContainer");
+      container.innerHTML = "";
+
+      const fixturesByDate = {};
+      const dateOrder = [];
+
+      // Group fixtures by date, only if teams exist
+      fixturesTemplate.forEach((fx) => {
+        const gA = fx.groupIndexA;
+        const tA = fx.teamAIndex;
+        const gB = fx.groupIndexB;
+        const tB = fx.teamBIndex;
+
+        if (!groups[gA] || !groups[gB]) return;
+        if (!groups[gA][tA] || !groups[gB][tB]) return;
+
+        if (!fixturesByDate[fx.date]) {
+          fixturesByDate[fx.date] = [];
+          dateOrder.push(fx.date);
+        }
+
+        fixturesByDate[fx.date].push({
+          teamA: groups[gA][tA],
+          teamB: groups[gB][tB],
+          groupA: groupLetters[gA] || "?",
+          groupB: groupLetters[gB] || "?",
+        });
+      });
+
+      // Build one nice "matchday card" per date
+      dateOrder.forEach((date) => {
+        const matches = fixturesByDate[date];
+
+        const card = document.createElement("section");
+        card.className =
+          "rounded-2xl border border-slate-700 bg-slate-900/70 p-4 shadow-lg space-y-3";
+
+        const header = document.createElement("div");
+        header.className = "flex items-baseline justify-between gap-3";
+
+        const title = document.createElement("h3");
+        title.className = "text-lg font-semibold";
+        title.textContent = date;
+
+        const subtitle = document.createElement("p");
+        subtitle.className = "text-xs text-slate-300";
+        const count = matches.length;
+        subtitle.textContent = `${count} match${count > 1 ? "es" : ""}`;
+
+        header.appendChild(title);
+        header.appendChild(subtitle);
+
+        const list = document.createElement("div");
+        list.className = "space-y-2";
+
+        matches.forEach((m, index) => {
+          const row = document.createElement("div");
+          // 3 columns: left (group), middle (teams), right (empty)
+          row.className =
+            "grid grid-cols-[120px_1fr_120px] items-center rounded-xl bg-slate-950/80 px-3 py-2 text-sm";
+
+          // LEFT: group info
+          const left = document.createElement("div");
+          left.className =
+            "text-left text-[11px] uppercase tracking-wide text-slate-300";
+
+          const groupLabel = document.createElement("span");
+          groupLabel.textContent =
+            m.groupA === m.groupB
+              ? `Group ${m.groupA}`
+              : `Group ${m.groupA} / ${m.groupB}`;
+
+          left.appendChild(groupLabel);
+
+          // MIDDLE: Team A  vs  Team B
+          const center = document.createElement("div");
+          // 3 columns inside: [ teamA | vs | teamB ]
+          center.className =
+            "grid grid-cols-[1fr_auto_1fr] items-center gap-2 text-sm font-medium";
+
+          const teamA = document.createElement("span");
+          teamA.className = "text-right pr-1";
+          teamA.textContent = m.teamA;
+
+          const vs = document.createElement("span");
+          vs.className = "text-[11px] uppercase tracking-wide text-slate-400";
+          vs.textContent = "vs";
+
+          const teamB = document.createElement("span");
+          teamB.className = "text-left pl-1";
+          teamB.textContent = m.teamB;
+
+          center.appendChild(teamA);
+          center.appendChild(vs);
+          center.appendChild(teamB);
+
+          // RIGHT: empty column, just to keep the middle truly centered
+          const rightPad = document.createElement("div");
+
+          row.appendChild(left);     // column 1
+          row.appendChild(center);   // column 2
+          row.appendChild(rightPad); // column 3
+          list.appendChild(row);
+        });
+
+
+        card.appendChild(header);
+        card.appendChild(list);
+        container.appendChild(card);
+      });
+
+      // In case something went wrong / no data
+      if (dateOrder.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "text-sm text-slate-300";
+        empty.textContent = "No fixtures to display. Please run a draw first.";
+        container.appendChild(empty);
+      }
+    }
+
     async function fetchDraw() {
       const status = document.getElementById("statusText");
-      status.textContent = "Drawing...";
+      status.textContent = "Drawing a new tournament...";
+      status.classList.add("border-emerald-500", "text-emerald-300");
 
       try {
         const response = await fetch("/api/draw");
         if (!response.ok) {
           throw new Error("Server error: " + response.status);
         }
-        const data = await response.json();
+        const data = await response.json(); // 12 x 4 list
         renderGroups(data);
-        status.textContent = "Draw completed.";
+        renderFixtures(data);
+        status.textContent = "Draw completed. Scroll to see all fixtures by date.";
       } catch (err) {
         console.error(err);
         status.textContent = "Error: could not fetch draw.";
+        status.classList.remove("border-emerald-500", "text-emerald-300");
+        status.classList.add("border-red-500", "text-red-300");
       }
     }
 
