@@ -24,72 +24,72 @@ from copy import deepcopy
 # 1. TEAMS — POT 1
 # ============================================
 teams_pot1_original = [
-    {"name": "Brazil",      "continent": ["CONMEBOL"]},
-    {"name": "USA",         "continent": ["CONCACAF"]},
-     {"name": "France",      "continent": ["UEFA"]},
-     {"name": "Spain",       "continent": ["UEFA"]},
-     {"name": "Canada",      "continent": ["CONCACAF"]},
-     {"name": "Mexico",      "continent": ["CONCACAF"]},
-     {"name": "Argentina",   "continent": ["CONMEBOL"]},
-     {"name": "England",     "continent": ["UEFA"]},
-     {"name": "Belgium",     "continent": ["UEFA"]},
-     {"name": "Netherlands", "continent": ["UEFA"]},
-     {"name": "Germany",     "continent": ["UEFA"]},
-     {"name": "Portugal",    "continent": ["UEFA"]}
+    {"name": "🇧🇷Brazil",      "continent": ["CONMEBOL"]},
+    {"name": "🇺🇸USA",         "continent": ["CONCACAF"]},
+     {"name": "🇫🇷France",      "continent": ["UEFA"]},
+     {"name": "🇪🇸Spain",       "continent": ["UEFA"]},
+     {"name": "🇨🇦Canada",      "continent": ["CONCACAF"]},
+     {"name": "🇲🇽Mexico",      "continent": ["CONCACAF"]},
+     {"name": "🇦🇷Argentina",   "continent": ["CONMEBOL"]},
+     {"name": "🏴󠁧󠁢󠁥󠁮󠁧󠁿England",     "continent": ["UEFA"]},
+     {"name": "🇧🇪Belgium",     "continent": ["UEFA"]},
+     {"name": "🇳🇱Netherlands", "continent": ["UEFA"]},
+     {"name": "🇩🇪Germany",     "continent": ["UEFA"]},
+     {"name": "🇵🇹Portugal",    "continent": ["UEFA"]}
 ]
 
 # ============================================
 # 2. TEAMS — POT 2
 # ============================================
 teams_pot2_original = [
-    {"name": "Colombia",    "continent": ["CONMEBOL"]},
-    {"name": "Japan",       "continent": ["AFC"]},
-     {"name": "Switzerland", "continent": ["UEFA"]},
-     {"name": "Morocco",     "continent": ["CAF"]},
-     {"name": "Uruguay",     "continent": ["CONMEBOL"]},
-     {"name": "Ecuador",     "continent": ["CONMEBOL"]},
-     {"name": "Iran",        "continent": ["AFC"]},
-     {"name": "South Korea", "continent": ["AFC"]},
-     {"name": "Australia",   "continent": ["AFC"]},
-     {"name": "Austria",     "continent": ["UEFA"]},
-     {"name": "Croatia",     "continent": ["UEFA"]},
-     {"name": "Senegal",     "continent": ["CAF"]}
+    {"name": "🇨🇴Colombia",    "continent": ["CONMEBOL"]},
+    {"name": "🇯🇵Japan",       "continent": ["AFC"]},
+     {"name": "🇨🇭Switzerland", "continent": ["UEFA"]},
+     {"name": "🇲🇦Morocco",     "continent": ["CAF"]},
+     {"name": "🇺🇾Uruguay",     "continent": ["CONMEBOL"]},
+     {"name": "🇪🇨Ecuador",     "continent": ["CONMEBOL"]},
+     {"name": "🇮🇷Iran",        "continent": ["AFC"]},
+     {"name": "🇰🇷South Korea", "continent": ["AFC"]},
+     {"name": "🇦🇺Australia",   "continent": ["AFC"]},
+     {"name": "🇦🇹Austria",     "continent": ["UEFA"]},
+     {"name": "🇭🇷Croatia",     "continent": ["UEFA"]},
+     {"name": "🇸🇳Senegal",     "continent": ["CAF"]}
 ]
 
 # ============================================
 # 3. TEAMS — POT 3
 # ============================================
 teams_pot3_original = [
-    {"name": "Qatar",        "continent": ["AFC"]},
-    {"name": "Uzbekistan",   "continent": ["AFC"]},
-    {"name": "Norway",       "continent": ["UEFA"]},
-    {"name": "Algeria",      "continent": ["CAF"]},
-    {"name": "Saudi Arabia", "continent": ["AFC"]},
-    {"name": "Egypt",        "continent": ["CAF"]},
-    {"name": "Ivory Coast",  "continent": ["CAF"]},
-    {"name": "Tunisia",      "continent": ["CAF"]},
-    {"name": "South Africa", "continent": ["CAF"]},
-    {"name": "Paraguay",     "continent": ["CONMEBOL"]},
-    {"name": "Panama",       "continent": ["CONCACAF"]},
-    {"name": "Scotland",     "continent": ["UEFA"]}
+    {"name": "🇶🇦Qatar",        "continent": ["AFC"]},
+    {"name": "🇺🇿Uzbekistan",   "continent": ["AFC"]},
+    {"name": "🇳🇴Norway",       "continent": ["UEFA"]},
+    {"name": "🇩🇿Algeria",      "continent": ["CAF"]},
+    {"name": "🇸🇦Saudi Arabia", "continent": ["AFC"]},
+    {"name": "🇪🇬Egypt",        "continent": ["CAF"]},
+    {"name": "🇨🇮Ivory Coast",  "continent": ["CAF"]},
+    {"name": "🇹🇳Tunisia",      "continent": ["CAF"]},
+    {"name": "🇿🇦South Africa", "continent": ["CAF"]},
+    {"name": "🇵🇾Paraguay",     "continent": ["CONMEBOL"]},
+    {"name": "🇵🇦Panama",       "continent": ["CONCACAF"]},
+    {"name": "🏴󠁧󠁢󠁳󠁣󠁴󠁿Scotland",     "continent": ["UEFA"]}
 ]
 
 # ============================================
 # 4. TEAMS — POT 4
 # ============================================
 teams_pot4_original = [
-    {"name": "Haiti",       "continent": ["CONCACAF"]},
-    {"name": "Curacao",     "continent": ["CONCACAF"]},
+    {"name": "🇭🇹Haiti",       "continent": ["CONCACAF"]},
+    {"name": "🇨🇼Curacao",     "continent": ["CONCACAF"]},
     # {"name": "DR Congo/Jamaica/New Caledonia", "continent": ["CAF", "CONCACAF", "OFC"]},
     # {"name": "Iraq/Bolivia/Suriname",          "continent": ["AFC"]},
-    {"name": "Jordan",      "continent": ["AFC"]},
-    {"name": "New Zealand", "continent": ["OFC"]},
-    {"name": "Ghana",       "continent": ["CAF"]},
-    {"name": "Cape Verde",  "continent": ["CAF"]},
-    {"name": "Italy/Wales/Bosnia and Herzegovina/Northern Ireland", "continent": ["UEFA"]},
-    {"name": "Ukraine/Poland/Albania/Sweden",                       "continent": ["UEFA"]},
-    {"name": "Turkey/Slovakia/Kosovo/Romania",                      "continent": ["UEFA"]},
-    {"name": "Denmark/Czech Republic/Ireland/North Macedonia",      "continent": ["UEFA"]}
+    {"name": "🇯🇴Jordan",      "continent": ["AFC"]},
+    {"name": "🇳🇿New Zealand", "continent": ["OFC"]},
+    {"name": "🇬🇭Ghana",       "continent": ["CAF"]},
+    {"name": "🇨🇻Cape Verde",  "continent": ["CAF"]},
+    {"name": "🇮🇹Italy/🏴󠁧󠁢󠁷󠁬󠁳󠁿Wales/🇧🇦Bosnia and Herzegovina/🇬🇧Northern Ireland", "continent": ["UEFA"]},
+    {"name": "🇺🇦Ukraine/🇵🇱Poland/🇦🇱Albania/🇸🇪Sweden",                       "continent": ["UEFA"]},
+    {"name": "🇹🇷Turkey/🇸🇰Slovakia/🇽🇰Kosovo/🇷🇴Romania",                      "continent": ["UEFA"]},
+    {"name": "🇩🇰Denmark/🇨🇿Czech Republic/🇮🇪Ireland/🇲🇰North Macedonia",      "continent": ["UEFA"]}
 ]
 
 # ============================================
@@ -542,13 +542,13 @@ def do_full_draw():
   special = random_assignment_ABCD_list()
   #print(special)
 
-  group2 = swap_group_by_team(group1, "Spain", special[0])
+  group2 = swap_group_by_team(group1, "🇪🇸Spain", special[0])
   # #print("group2:",*group2,sep="\n")
-  group3 = swap_group_by_team(group2, "Argentina", special[1])
+  group3 = swap_group_by_team(group2, "🇦🇷Argentina", special[1])
   # # # #print("group3:",*group2,sep="\n")
-  group4 = swap_group_by_team(group3, "France", special[2])
+  group4 = swap_group_by_team(group3, "🇫🇷France", special[2])
   # # # #print("group4:",*group2,sep="\n")
-  group5 = swap_group_by_team(group4, "England", special[3])
+  group5 = swap_group_by_team(group4, "🏴󠁧󠁢󠁥󠁮󠁧󠁿England", special[3])
   # # # #print("group5:",*group2,sep="\n")
   # # # #print(*group5,sep="\n")
   text = print_groups_only(group5)
